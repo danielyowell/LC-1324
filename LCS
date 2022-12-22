@@ -1,0 +1,69 @@
+// LCS.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <list>
+using namespace std;
+vector<string> printVertically(string s) {
+    // first convert s to a vector leaving out spaces.
+    // - 
+    vector<string> v1;
+    list<string> mylist;
+    while (s.rfind(' ') != -1) {
+        int find = s.rfind(' ');
+        mylist.push_front(s.substr(s.rfind(' ')+1));
+        s.erase(s.begin() + find, s.end());
+    }
+    mylist.push_front(s);
+    while(mylist.size() !=0) {
+        v1.push_back(mylist.front());
+        mylist.pop_front();
+    }
+    // v1 = ["TO", "BE", "OR", "NOT", "TO", "BE"]
+    // v2 = ["TBONTB","OEROOE","   T"]
+    
+    /*
+    find max length of v1
+    for loop taking the first letter of each element, then erasing it
+    if an element is null, add a space instead
+    */
+
+    int max = v1.at(0).size();
+    for (int x = 1; x < v1.size(); x++) {
+        if (v1.at(x).size() > max) {
+            max = v1.at(x).size();
+        }
+    }
+    cout << "max is " << max << endl;
+    // for duration of max
+    // take first letter of each element, then erase it
+    // but check if the element is empty or not first
+    vector<string> v2;
+    for (int x = 0; x < max; x++) {
+        v2.push_back("");
+        cout << "pushed back v2" << endl;
+    }
+    for (int x = 0; x < max; x++) { // for duration of max letters in v1
+        cout << "x = " << x << endl;
+        for (int y = 0; y < v1.size(); y++) { // for length of v1
+            cout << "y = " << y << endl;
+            if (v1.at(y) == "") {
+                v2.at(y) = v2.at(y) + " ";
+            }
+            else {
+                v2.at(y) = v2.at(y) + v1.at(y);
+            }
+        }
+    }
+    return v2;
+}
+
+int main()
+{
+    vector<string> v = printVertically("TO BE OR NOT TO BE");
+    for (int i = 0; i < v.size(); i++) {
+        cout << v.at(i) << endl;
+    }
+}
